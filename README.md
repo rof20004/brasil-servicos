@@ -1,0 +1,1 @@
+Exemplo de aplicação em Go com Echo framework que faz o build do binário contendo o servidor de API(Serviços REST) e o frontend(Site em Vuejs) pela utilização do rakyll: https://github.com/rakyll/statik.
