@@ -41,9 +41,6 @@ func main() {
 	site.GET("/*", echo.WrapHandler(http.StripPrefix("/", http.FileServer(statikFS))))
 	hosts["site.localhost:3010"] = &Host{site}
 
-	// http.Handle("/", http.StripPrefix("/", http.FileServer(statikFS)))
-	// http.ListenAndServe(":3050", nil)
-
 	// ---------
 	// Server
 	// ---------
