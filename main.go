@@ -7,7 +7,11 @@ import (
 	"github.com/labstack/echo"
 	"github.com/rakyll/statik/fs"
 
+	_ "github.com/mattn/go-sqlite3"
 	_ "github.com/rof20004/brasil-servicos/statik"
+
+	"github.com/rof20004/brasil-servicos/api/routes"
+	"github.com/rof20004/brasil-servicos/database"
 )
 
 type (
@@ -21,17 +25,20 @@ func main() {
 	// Hosts
 	hosts := map[string]*Host{}
 
-	// ---------
-	// API
-	// ---------
-	api := echo.New()
-	api.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, "Hello API Server")
-	})
-	hosts["api.localhost:3010"] = &Host{api}
+	// Start databse and migrations
+	database.InitDatabase()
+	database.InitMigrations()
+
+	// Start routes
+	routes.InitRoutes()
 
 	// ---------
-	// Site
+	// API host
+	// ---------
+	hosts["api.localhost:3010"] = &Host{routes.API}
+
+	// ---------
+	// Site host
 	// ---------
 	site := echo.New()
 	statikFS, err := fs.New()
